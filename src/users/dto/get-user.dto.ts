@@ -65,15 +65,11 @@ export class QueryUserDto {
     @IsOptional()
     role!: string
 
-    @ApiProperty({
-        required: false,
-    })
+    @ApiProperty()
     @IsNumber()
     page!: number
 
-    @ApiProperty({
-        required: false,
-    })
+    @ApiProperty()
     @IsNumber()
     pageSize!: number
 }
