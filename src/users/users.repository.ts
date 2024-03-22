@@ -1,20 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { UserEntity } from 'src/users/entities/user.entity'
+import calculatePagination from 'src/utils/calculatePagination'
 
 @Injectable()
 export class UsersRepository {
     constructor(private prisma: PrismaService) {}
 
-    async getManyUsers(
+    async getUsers(
         page: number,
         pageSize: number,
-        filter: Record<string, string>,
+        filter: Prisma.UsersWhereInput,
     ): Promise<UserEntity[]> {
         const users = await this.prisma.users.findMany({
             where: filter,
             take: pageSize,
-            skip: (page - 1) * pageSize,
+            skip: calculatePagination(page, pageSize),
             include: {
                 Student: true,
             },
@@ -23,13 +25,13 @@ export class UsersRepository {
         return users
     }
 
-    async getUserById(id: number): Promise<UserEntity> {
+    async getUserById(id: number, returnStudent: boolean): Promise<UserEntity> {
         const user = await this.prisma.users.findUnique({
             where: {
                 id,
             },
             include: {
-                Student: true,
+                Student: returnStudent,
             },
         })
 
@@ -40,7 +42,7 @@ export class UsersRepository {
         return user
     }
 
-    async countManyUsers(filter: Record<string, string>): Promise<number> {
+    async countUsers(filter: Prisma.UsersWhereInput): Promise<number> {
         const count = await this.prisma.users.count({
             where: filter,
         })
