@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Query } from '@nestjs/common'
-import { Pageable, ParamUserDto, QueryUserDto } from './dto/get-user.dto'
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common'
+import { Pageable, QueryUserDto } from './dto/get-user.dto'
 import { UserEntity } from './entities/user.entity'
 import { UsersService } from './users.service'
 
@@ -13,7 +13,10 @@ export class UsersController {
     }
 
     @Get(':id')
-    async findById(@Param() paramUserDto: ParamUserDto): Promise<UserEntity> {
-        return await this.usersService.getUserById(paramUserDto.id)
+    async findById(
+        @Param('id', ParseIntPipe) id: number,
+        @Query('returnStudent') returnStudent: boolean,
+    ): Promise<UserEntity> {
+        return await this.usersService.getUserById(id, returnStudent)
     }
 }
