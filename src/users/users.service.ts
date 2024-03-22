@@ -7,8 +7,8 @@ import { UsersRepository } from './users.repository'
 export class UsersService {
     constructor(private usersRepository: UsersRepository) {}
 
-    async getUserById(id: number): Promise<UserEntity> {
-        return await this.usersRepository.getUserById(id)
+    async getUserById(id: number, returnStudent: boolean): Promise<UserEntity> {
+        return await this.usersRepository.getUserById(id, returnStudent)
     }
 
     async getManyUsers(queryUserDto: QueryUserDto): Promise<Pageable<UserEntity>> {
@@ -29,8 +29,10 @@ export class UsersService {
             return acc
         }, {})
 
-        const users = await this.usersRepository.getManyUsers(page, pageSize, likeFilter)
-        const count = await this.usersRepository.countManyUsers(likeFilter)
+        const [users, count] = await Promise.all([
+            this.usersRepository.getUsers(page, pageSize, likeFilter),
+            this.usersRepository.countUsers(likeFilter),
+        ])
 
         return {
             rows: users,
