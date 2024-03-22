@@ -1,4 +1,5 @@
-import { Student, Users } from '@prisma/client'
+import { Users } from '@prisma/client'
+import { StudentEntity } from 'src/students/entities/student.entity'
 
 export class UserEntity implements Users {
     id!: number
@@ -18,5 +19,5 @@ export class UserEntity implements Users {
     updatedDate!: Date
     updatedBy!: number | null
 
-    student?: Student | null
+    student?: StudentEntity | null
 }
