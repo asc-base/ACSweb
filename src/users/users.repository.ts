@@ -3,29 +3,27 @@ import { Prisma } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { UserEntity } from 'src/users/entities/user.entity'
 import calculatePagination from 'src/utils/calculatePagination'
-
-interface GetUsersOptions {
-    page: number
-    pageSize: number
-    orderBy: string
-    orderField: string
-    returnStudent: boolean
-    filter: Prisma.UsersWhereInput
-}
+import { GetUsersOptions } from './interfaces'
 
 @Injectable()
 export class UsersRepository {
     constructor(private prisma: PrismaService) {}
 
     async getUsers(options: GetUsersOptions): Promise<UserEntity[]> {
-        const { page, pageSize, orderBy, orderField, returnStudent, filter } = options
+        const { page, pageSize, orderBy, orderField, returnStudent, role, filter } = options
 
         const users = await this.prisma.users.findMany({
-            where: filter,
+            where: {
+                ...filter,
+                Role: {
+                    name: role,
+                },
+            },
             take: pageSize,
             skip: calculatePagination(page, pageSize),
             include: {
                 Student: returnStudent,
+                Role: true,
             },
             orderBy: {
                 [orderField]: orderBy,
@@ -42,10 +40,10 @@ export class UsersRepository {
             },
             include: {
                 Student: returnStudent,
+                Role: true,
             },
         })
 
-        // wait for fix problem findOrThrow
         if (!user) {
             throw new NotFoundException(`User with id ${id} not found`)
         }
