@@ -8,9 +8,9 @@ import {
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common'
-import { Pageable } from 'src/interfaces/pageable.interface'
+import { Pageable } from 'src/interfaces'
 import { QueryUserDto } from './dto/get-user.dto'
-import { UserEntity } from './entities/user.entity'
+import { UsersMapper } from './interfaces'
 import { UsersService } from './users.service'
 
 @Controller('users')
@@ -19,15 +19,15 @@ export class UsersController {
 
     @Get()
     @UsePipes(new ValidationPipe({ transform: true }))
-    async findAll(@Query() queryUserDto: QueryUserDto): Promise<Pageable<UserEntity>> {
+    async getList(@Query() queryUserDto: QueryUserDto): Promise<Pageable<UsersMapper>> {
         return await this.usersService.getUsers(queryUserDto)
     }
 
     @Get(':id')
-    async findById(
+    async getById(
         @Param('id', ParseIntPipe) id: number,
         @Query('returnStudent', ParseBoolPipe) returnStudent: boolean = true,
-    ): Promise<UserEntity> {
+    ): Promise<UsersMapper> {
         return await this.usersService.getUserById(id, returnStudent)
     }
 }
