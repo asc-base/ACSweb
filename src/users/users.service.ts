@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { Pageable, QueryUserDto } from './dto/get-user.dto'
+import { Pageable } from 'src/interfaces/pageable.interface'
+import { QueryUserDto } from './dto/get-user.dto'
 import { UserEntity } from './entities/user.entity'
 import { UsersRepository } from './users.repository'
 
@@ -11,11 +12,27 @@ export class UsersService {
         return await this.usersRepository.getUserById(id, returnStudent)
     }
 
-    async getManyUsers(queryUserDto: QueryUserDto): Promise<Pageable<UserEntity>> {
-        const { page, pageSize, ...filter } = queryUserDto
+    async getUsers(queryUserDto: QueryUserDto): Promise<Pageable<UserEntity>> {
+        const { page, pageSize, returnStudent, orderBy, orderField, ...filter } = queryUserDto
+
+        const except_fields = ['phone', 'nickname']
 
         // map to like query
         const likeFilter: Record<string, string> = Object.keys(filter).reduce((acc, key) => {
+            if (key === 'Role') {
+                return {
+                    ...acc,
+                    [key]: { id: filter[key as keyof typeof filter] },
+                }
+            }
+
+            if (except_fields.includes(key)) {
+                return {
+                    ...acc,
+                    [key]: filter[key as keyof typeof filter],
+                }
+            }
+
             if (filter[key as keyof typeof filter]) {
                 return {
                     ...acc,
@@ -30,14 +47,21 @@ export class UsersService {
         }, {})
 
         const [users, count] = await Promise.all([
-            this.usersRepository.getUsers(page, pageSize, likeFilter),
+            this.usersRepository.getUsers({
+                page,
+                pageSize,
+                returnStudent,
+                orderBy,
+                orderField,
+                filter: likeFilter,
+            }),
             this.usersRepository.countUsers(likeFilter),
         ])
 
         return {
+            page,
+            pageSize,
             rows: users,
-            page: queryUserDto.page,
-            pageSize: queryUserDto.pageSize,
             totalRecords: count,
         }
     }
