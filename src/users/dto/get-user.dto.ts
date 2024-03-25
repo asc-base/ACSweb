@@ -1,24 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
-
-export enum ORDER_FIELD {
-    USERNAME = 'username',
-    FIRSTNAME_TH = 'firstnameTh',
-    LASTNAME_TH = 'lastnameTh',
-    FIRSTNAME_EN = 'firstnameEn',
-    LASTNAME_EN = 'lastnameEn',
-    EMAIL = 'email',
-    PHONE = 'phone',
-    ROLE = 'role',
-    CREATED_DATE = 'createdDate',
-    UPDATED_DATE = 'updatedDate',
-}
-
-export enum ORDER_BY {
-    ASC = 'asc',
-    DESC = 'desc',
-}
+import { ORDER_BY, ORDER_FIELD, ROLE } from '../constants'
 
 export class QueryUserDto {
     @ApiProperty({
@@ -72,10 +55,11 @@ export class QueryUserDto {
 
     @ApiProperty({
         required: false,
+        enum: ROLE,
     })
-    @IsNumber()
-    @Transform(({ value }) => parseInt(value))
-    Role!: number
+    @IsString()
+    @IsOptional()
+    role!: ROLE
 
     @ApiProperty()
     @IsNumber()
