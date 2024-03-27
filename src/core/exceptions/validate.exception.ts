@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common'
 import { ValidationError } from 'class-validator'
-import Exception from 'src/interfaces/exception.interface'
+import Exception from 'src/core/interfaces/exception.interface'
 
 const ValidationException = (errors: ValidationError[]): HttpException => {
     const message = errors.reduce(
