@@ -2,9 +2,10 @@ import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import helmet from 'helmet'
-import { HttpExceptionFilter } from 'src/exceptions/http.exception.filter'
-import ValidationException from 'src/exceptions/validate.exception'
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor'
+import { HttpExceptionFilter } from 'src/core/exceptions/http.exception.filter'
+import { PrismaExceptionFilter } from 'src/core/exceptions/prisma.exception.filter'
+import ValidationException from 'src/core/exceptions/validate.exception'
+import { TransformInterceptor } from 'src/core/interceptors/transform.interceptor'
 import { AppModule } from './app.module'
 
 async function bootstrap(): Promise<void> {
@@ -23,7 +24,7 @@ async function bootstrap(): Promise<void> {
     app.useGlobalInterceptors(new TransformInterceptor())
 
     // global filters
-    app.useGlobalFilters(new HttpExceptionFilter())
+    app.useGlobalFilters(...[new HttpExceptionFilter(), new PrismaExceptionFilter()])
 
     // global pipes
     app.useGlobalPipes(
