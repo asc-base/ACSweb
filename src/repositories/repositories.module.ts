@@ -4,8 +4,8 @@ import { IExampleRepository } from 'src/repositories/example/example.abstract'
 import { ExampleFactory } from 'src/repositories/example/example.factory'
 import { ExampleRepository } from 'src/repositories/example/example.repository'
 import { IUsersRepository } from 'src/repositories/users/users.abstract'
+import { UsersFactory } from 'src/repositories/users/users.factory'
 import { UsersRepository } from 'src/repositories/users/users.repository'
-import { UsersFactory } from 'src/repositories/users/uses.factory'
 
 @Module({
     imports: [PrismaModule],

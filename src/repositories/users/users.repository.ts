@@ -4,7 +4,7 @@ import calculatePagination from 'src/core/utils/calculatePagination'
 import { GetUsersOptions, UsersModel } from 'src/models/users'
 import { PrismaService } from 'src/providers/databases/prisma/prisma.service'
 import { IUsersRepository } from 'src/repositories/users/users.abstract'
-import { UsersFactory } from 'src/repositories/users/uses.factory'
+import { UsersFactory } from 'src/repositories/users/users.factory'
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
