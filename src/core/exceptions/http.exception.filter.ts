@@ -15,9 +15,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const status =
             exception instanceof HttpException ? exception.getStatus() : INTERNAL_SERVER_ERROR
 
-        console.log(`status: ${status}`)
-        console.log(`exception: `, exception)
-
         let message = ''
         switch (status) {
             case BAD_REQUEST:
