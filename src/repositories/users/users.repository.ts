@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import calculatePagination from 'src/core/utils/calculatePagination'
 import { GetUsersOptions, UsersModel } from 'src/models/users'
@@ -38,7 +38,7 @@ export class UsersRepository implements IUsersRepository {
     }
 
     async geById(id: number, returnStudent: boolean): Promise<UsersModel> {
-        const user = await this.prisma.users.findUnique({
+        const user = await this.prisma.users.findFirstOrThrow({
             where: {
                 id,
             },
@@ -47,10 +47,6 @@ export class UsersRepository implements IUsersRepository {
                 Role: true,
             },
         })
-
-        if (!user) {
-            throw new NotFoundException(`User with id ${id} not found`)
-        }
 
         return this.usersFactory.mapUsersEntityToUsersModel(user)
     }
