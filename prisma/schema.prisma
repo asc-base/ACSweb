@@ -78,3 +78,17 @@ model Role {
 
   @@map("role")
 }
+
+model Forgot_password_credential {
+  id                   Int      @id @default(autoincrement())
+  password_credentials String   @map("password_credential") @db.Uuid
+  userId               Int      @map("user_id")
+  token                String   @db.VarChar(255)
+  expiredDate          DateTime @map("expired_date")
+  createdDate          DateTime @default(now()) @map("created_date")
+  createdBy            Int      @map("created_by")
+  updatedDate          DateTime @updatedAt @map("updated_date")
+  updatedBy            Int?     @map("updated_by")
+
+  @@map("forgot_password_credential")
+}
