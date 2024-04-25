@@ -58,4 +58,18 @@ export class UsersRepository implements IUsersRepository {
 
         return count
     }
+
+    async getByEmail(email: string, returnStudent: boolean): Promise<UsersModel> {
+        const user = await this.prisma.users.findFirstOrThrow({
+            where: {
+                email,
+            },
+            include: {
+                Student: returnStudent,
+                Role: true,
+            },
+        })
+
+        return this.usersFactory.mapUsersEntityToUsersModel(user)
+    }
 }
