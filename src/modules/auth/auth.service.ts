@@ -18,20 +18,16 @@ export class AuthService {
         const { email } = forgotPasswordDto
         const user = await this.usersRepository.getByEmail(email, false)
 
-        if (user) {
-            const credentail = await this.authRepository.createForgotPasswordCredentials(user.id)
+        const credentail = await this.authRepository.createForgotPasswordCredentials(user.id)
 
-            console.table(credentail)
+        console.table(credentail)
 
-            if (credentail) {
-                await this.mailService.sendMail({
-                    to: email,
-                    from: process.env.DEFAULT_EMAIL_FROM,
-                    subject: 'Forgot Password',
-                    html: GenerateForgotPasswordMail('www.google.com'),
-                })
-            }
-        }
+        await this.mailService.sendMail({
+            to: email,
+            from: process.env.DEFAULT_EMAIL_FROM,
+            subject: 'Forgot Password',
+            html: GenerateForgotPasswordMail('www.google.com'),
+        })
 
         return { timestamp: new Date() }
     }
