@@ -12,8 +12,8 @@ export class AuthFactory {
         return {
             id: data.id,
             userId: data.userId,
-            password_credentials: data.password_credential,
-            isActive: data.is_active,
+            passwordCredential: data.passwordCredential,
+            isActive: data.isActive,
             expiredDate: data.expiredDate,
             createdBy: data.createdBy,
             updatedBy: data.updatedBy,
