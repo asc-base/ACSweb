@@ -19,8 +19,8 @@ export class AuthRepository implements IAuthRepository {
         const creds = await this.prisma.forgot_password_credential.create({
             data: {
                 userId: user_id,
-                password_credential: uuid(),
-                is_active: true,
+                passwordCredential: uuid(),
+                isActive: true,
                 expiredDate: expiredDate,
                 createdBy: -1,
                 createdDate: new Date(),
