@@ -20,14 +20,14 @@ export class AuthService {
 
         const credentail = await this.authRepository.createForgotPasswordCredentials(user.id)
 
-        console.table(credentail)
-
-        await this.mailService.sendMail({
-            to: email,
-            from: process.env.DEFAULT_EMAIL_FROM,
-            subject: 'Forgot Password',
-            html: GenerateForgotPasswordMail('www.google.com'),
-        })
+        if (credentail) {
+            await this.mailService.sendMail({
+                to: email,
+                from: process.env.DEFAULT_EMAIL_FROM,
+                subject: 'Forgot Password',
+                html: GenerateForgotPasswordMail('www.google.com'),
+            })
+        }
 
         return { timestamp: new Date() }
     }
