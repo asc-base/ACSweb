@@ -1,5 +1,6 @@
 import { MailerModule } from '@nestjs-modules/mailer'
 import { Module } from '@nestjs/common'
+import { AuthFactory } from 'src/repositories/auth/auth.factory'
 import { RepositoriesModule } from 'src/repositories/repositories.module'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
@@ -20,6 +21,6 @@ import { AuthService } from './auth.service'
         }),
     ],
     controllers: [AuthController],
-    providers: [AuthService],
+    providers: [AuthService, AuthFactory],
 })
 export class AuthModule {}
