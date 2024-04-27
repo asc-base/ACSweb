@@ -79,7 +79,7 @@ model Role {
   @@map("role")
 }
 
-model Forgot_password_credential {
+model ForgotPasswordCredential {
   id                 Int      @id @default(autoincrement())
   passwordCredential String   @map("password_credential") @db.Uuid
   isActive           Boolean  @map("is_active")
