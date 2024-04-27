@@ -1,7 +1,5 @@
-import { ForgotPasswordCredentialModel } from 'src/models/forgot_password_credential'
+import { ForgotPasswordCredentialModel } from 'src/models/forgotPasswordCredential'
 
 export abstract class IAuthRepository {
-    abstract createForgotPasswordCredentials(
-        user_id: number,
-    ): Promise<ForgotPasswordCredentialModel>
+    abstract createForgotPasswordCredentials(userId: number): Promise<ForgotPasswordCredentialModel>
 }

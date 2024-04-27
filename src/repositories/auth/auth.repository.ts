@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import GenerateMinuteLeft from 'src/core/utils/generateMinuteLeft'
-import { ForgotPasswordCredentialModel } from 'src/models/forgot_password_credential'
+import { default as dayjs } from 'dayjs'
+import { ForgotPasswordCredentialModel } from 'src/models/forgotPasswordCredential'
 import { PrismaService } from 'src/providers/databases/prisma/prisma.service'
 import { v4 as uuid } from 'uuid'
 import { IAuthRepository } from './auth.abstarct'
@@ -13,12 +13,13 @@ export class AuthRepository implements IAuthRepository {
         private authFactory: AuthFactory,
     ) {}
 
-    async createForgotPasswordCredentials(user_id: number): Promise<ForgotPasswordCredentialModel> {
-        const expiredDate = GenerateMinuteLeft(5)
+    async createForgotPasswordCredentials(userId: number): Promise<ForgotPasswordCredentialModel> {
+        const minuteLeft = 5
+        const expiredDate = dayjs().add(minuteLeft, 'minute').toDate()
 
-        const creds = await this.prisma.forgot_password_credential.create({
+        const creds = await this.prisma.forgotPasswordCredential.create({
             data: {
-                userId: user_id,
+                userId,
                 passwordCredential: uuid(),
                 isActive: true,
                 expiredDate: expiredDate,
