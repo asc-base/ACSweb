@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { ForgotPasswordCredentialEntity } from 'src/entities/forgot_password_credential.entity'
-import { ForgotPasswordCredentialModel } from 'src/models/forgot_password_credential'
+import { ForgotPasswordCredentialEntity } from 'src/entities/forgotPasswordCredential.entity'
+import { ForgotPasswordCredentialModel } from 'src/models/forgotPasswordCredential'
 
 @Injectable()
 export class AuthFactory {
