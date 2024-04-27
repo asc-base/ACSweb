@@ -1,25 +1,12 @@
-import { MailerModule } from '@nestjs-modules/mailer'
 import { Module } from '@nestjs/common'
 import { AuthFactory } from 'src/repositories/auth/auth.factory'
 import { RepositoriesModule } from 'src/repositories/repositories.module'
+import { MailModule } from '../mail/mail.module'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 
 @Module({
-    imports: [
-        RepositoriesModule,
-        MailerModule.forRoot({
-            transport: {
-                host: process.env.SMTP_HOST,
-                port: process.env.SMTP_PORT,
-                secure: false,
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS,
-                },
-            },
-        }),
-    ],
+    imports: [RepositoriesModule, MailModule],
     controllers: [AuthController],
     providers: [AuthService, AuthFactory],
 })
