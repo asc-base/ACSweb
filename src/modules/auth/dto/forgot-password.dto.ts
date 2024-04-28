@@ -3,7 +3,7 @@ import { IsEmail, IsOptional, IsString } from 'class-validator'
 
 export class ForgotPasswordDto {
     @ApiProperty({
-        required: false,
+        required: true,
     })
     @IsEmail()
     @IsString()

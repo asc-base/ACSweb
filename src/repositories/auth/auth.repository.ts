@@ -14,8 +14,7 @@ export class AuthRepository implements IAuthRepository {
     ) {}
 
     async createForgotPasswordCredentials(userId: number): Promise<ForgotPasswordCredentialModel> {
-        const minuteLeft = 5
-        const expiredDate = dayjs().add(minuteLeft, 'minute').toDate()
+        const expiredDate = dayjs().add(5, 'minute').toDate()
 
         const creds = await this.prisma.forgotPasswordCredential.create({
             data: {
