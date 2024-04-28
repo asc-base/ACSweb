@@ -20,21 +20,18 @@ export class AuthService {
         const user = await this.usersRepository.getByEmail(email, false)
 
         const credentail = await this.authRepository.createForgotPasswordCredentials(user.id)
+        const url = `${process.env.ACS_PORTAL_URL}/reset-password?token=${credentail.passwordCredential}`
 
-        if (credentail) {
-            const url = `${process.env.FRONTEND_URL}/reset-password?token=${credentail.passwordCredential}`
-
-            const sendMailOption: ISendMailOptions = {
-                to: email,
-                subject: 'Forgot Password',
-                template: './forgotPassword',
-                context: {
-                    url,
-                },
-            }
-
-            await this.mailService.sendUserConfirmation(sendMailOption)
+        const sendMailOption: ISendMailOptions = {
+            to: email,
+            subject: 'Forgot Password',
+            template: './forgotPassword',
+            context: {
+                url,
+            },
         }
+
+        await this.mailService.sendMail(sendMailOption)
 
         return {
             timestamp: dayjs().toDate(),
