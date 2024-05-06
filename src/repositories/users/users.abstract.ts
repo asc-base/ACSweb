@@ -5,4 +5,5 @@ export abstract class IUsersRepository {
     abstract getList(options: GetUsersOptions): Promise<UsersModel[]>
     abstract geById(id: number, returnStudent: boolean): Promise<UsersModel>
     abstract count(filter: Prisma.UsersWhereInput): Promise<number>
+    abstract findOne(filter: Prisma.UsersWhereInput): Promise<UsersModel>
 }

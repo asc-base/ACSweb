@@ -39,4 +39,9 @@ export class UsersService {
             totalRecords: count,
         }
     }
+
+    async findUserByUsername(username: string): Promise<UsersModel | undefined >{
+        const user = await this.usersRepository.findOne({ username } );
+        return user;
+    }
 }

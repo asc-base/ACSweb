@@ -58,4 +58,16 @@ export class UsersRepository implements IUsersRepository {
 
         return count
     }
+
+    async findOne(filter: Prisma.UsersWhereInput): Promise<UsersModel> {
+        const user = await this.prisma.users.findFirstOrThrow({
+            where: filter,
+            include: {
+                Student: true,
+                Role: true,
+            },
+        })
+
+        return this.usersFactory.mapUsersEntityToUsersModel(user)
+    }
 }
