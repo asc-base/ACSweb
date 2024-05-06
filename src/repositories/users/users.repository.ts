@@ -37,7 +37,7 @@ export class UsersRepository implements IUsersRepository {
         return this.usersFactory.mapUsersEntitiesToUsersModels(users)
     }
 
-    async geById(id: number, returnStudent: boolean): Promise<UsersModel> {
+    async getById(id: number, returnStudent: boolean): Promise<UsersModel> {
         const user = await this.prisma.users.findFirstOrThrow({
             where: {
                 id,
