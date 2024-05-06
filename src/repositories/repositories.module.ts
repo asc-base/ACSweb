@@ -6,6 +6,7 @@ import { ExampleRepository } from 'src/repositories/example/example.repository'
 import { IUsersRepository } from 'src/repositories/users/users.abstract'
 import { UsersFactory } from 'src/repositories/users/users.factory'
 import { UsersRepository } from 'src/repositories/users/users.repository'
+import { JwtStrategy } from 'src/strategies/jwt.strategy'
 
 @Module({
     imports: [PrismaModule],
@@ -20,6 +21,8 @@ import { UsersRepository } from 'src/repositories/users/users.repository'
         },
         UsersFactory,
         ExampleFactory,
+        JwtStrategy,
+        UsersRepository,
     ],
     exports: [IExampleRepository, IUsersRepository],
 })
