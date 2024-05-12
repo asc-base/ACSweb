@@ -46,7 +46,7 @@ model Student {
 
 model Users {
   id          Int       @id @default(autoincrement())
-  username    String    @db.VarChar(64)
+  username    String    @unique @db.VarChar(64)
   profileUrl  String?   @map("profile_url") @db.Text
   firstnameTh String?   @map("firstname_th") @db.VarChar(64)
   lastnameTh  String?   @map("lastname_th") @db.VarChar(64)

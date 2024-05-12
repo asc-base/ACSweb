@@ -4,6 +4,7 @@ import { Pageable } from 'src/models'
 import { UsersModel } from 'src/models/users'
 import { IUsersRepository } from 'src/repositories/users/users.abstract'
 import { ExceptFields } from './constants'
+import { CreateUserDto } from './dto/create-user.dto'
 import { QueryUserDto } from './dto/get-users.dto'
 
 @Injectable()
@@ -38,5 +39,9 @@ export class UsersService {
             rows: users,
             totalRecords: count,
         }
+    }
+
+    async createUser(data: CreateUserDto): Promise<UsersModel> {
+        return await this.usersRepository.createUser(data)
     }
 }

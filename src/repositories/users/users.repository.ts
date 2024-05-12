@@ -58,4 +58,16 @@ export class UsersRepository implements IUsersRepository {
 
         return count
     }
+
+    async createUser(data: Prisma.UsersCreateInput): Promise<UsersModel> {
+        const user = await this.prisma.users.create({
+            data,
+            include: {
+                Student: true,
+                Role: true,
+            },
+        })
+
+        return this.usersFactory.mapUsersEntityToUsersModel(user)
+    }
 }

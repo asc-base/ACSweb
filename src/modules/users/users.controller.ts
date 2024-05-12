@@ -1,7 +1,17 @@
-import { Controller, Get, Param, ParseBoolPipe, ParseIntPipe, Query } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseBoolPipe,
+    ParseIntPipe,
+    Post,
+    Query,
+} from '@nestjs/common'
 import { Pageable } from 'src/models'
 import { UsersDto } from 'src/modules/users/dto/users.dto'
 import { UsersFactory } from 'src/modules/users/users.factory'
+import { CreateUserDto } from './dto/create-user.dto'
 import { QueryUserDto } from './dto/get-users.dto'
 import { UsersService } from './users.service'
 
@@ -28,6 +38,12 @@ export class UsersController {
         @Query('returnStudent', ParseBoolPipe) returnStudent: boolean = true,
     ): Promise<UsersDto> {
         const user = await this.usersService.getUserById(id, returnStudent)
+        return this.usersFactory.mapUsersModelToUsersDto(user)
+    }
+
+    @Post('users')
+    async createUser(@Body() createUserDto: CreateUserDto): Promise<UsersDto> {
+        const user = await this.usersService.createUser(createUserDto)
         return this.usersFactory.mapUsersModelToUsersDto(user)
     }
 }
