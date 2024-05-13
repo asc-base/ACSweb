@@ -15,3 +15,5 @@ export interface BaseModel {
     updatedDate?: Date
     updatedBy?: number | null
 }
+
+export type File = Express.Multer.File
