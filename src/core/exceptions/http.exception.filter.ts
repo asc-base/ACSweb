@@ -37,7 +37,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         response.status(status).json({
             code: status,
             message,
-            errors: exception.getResponse() || INTERNAL_SERVER_ERROR_MSG,
+            errors: exception.getResponse()?.message || INTERNAL_SERVER_ERROR_MSG,
         })
     }
 }
