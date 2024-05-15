@@ -5,6 +5,10 @@ export interface Pageable<T> {
     pageSize: number
 }
 
+export interface TimeStampModel {
+    timestamp: Date | string
+}
+
 export interface BaseModel {
     createdDate?: Date
     createdBy?: number

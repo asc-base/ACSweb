@@ -53,7 +53,7 @@ model Users {
   firstnameEn String?   @map("firstname_en") @db.VarChar(64)
   lastnameEn  String?   @map("lastname_en") @db.VarChar(64)
   nickname    String?   @db.VarChar(64)
-  email       String    @db.VarChar(64)
+  email       String    @unique @db.VarChar(64)
   phone       String    @db.VarChar(10)
   password    String    @db.VarChar(255)
   roleId      Int       @map("role_id")
@@ -77,4 +77,18 @@ model Role {
   Users       Users[]
 
   @@map("role")
+}
+
+model ForgotPasswordCredential {
+  id                 Int      @id @default(autoincrement())
+  passwordCredential String   @map("password_credential") @db.Uuid
+  isActive           Boolean  @map("is_active")
+  userId             Int      @map("user_id")
+  expiredDate        DateTime @map("expired_date")
+  createdDate        DateTime @default(now()) @map("created_date")
+  createdBy          Int      @map("created_by")
+  updatedDate        DateTime @updatedAt @map("updated_date")
+  updatedBy          Int?     @map("updated_by")
+
+  @@map("forgot_password_credential")
 }

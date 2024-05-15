@@ -7,6 +7,9 @@ import { IUsersRepository } from 'src/repositories/users/users.abstract'
 import { UsersFactory } from 'src/repositories/users/users.factory'
 import { UsersRepository } from 'src/repositories/users/users.repository'
 import { JwtStrategy } from 'src/strategies/jwt.strategy'
+import { IAuthRepository } from './auth/auth.abstarct'
+import { AuthFactory } from './auth/auth.factory'
+import { AuthRepository } from './auth/auth.repository'
 
 @Module({
     imports: [PrismaModule],
@@ -19,11 +22,16 @@ import { JwtStrategy } from 'src/strategies/jwt.strategy'
             provide: IUsersRepository,
             useClass: UsersRepository,
         },
+        {
+            provide: IAuthRepository,
+            useClass: AuthRepository,
+        },
         UsersFactory,
+        AuthFactory,
         ExampleFactory,
         JwtStrategy,
         UsersRepository,
     ],
-    exports: [IExampleRepository, IUsersRepository],
+    exports: [IExampleRepository, IUsersRepository, IAuthRepository],
 })
 export class RepositoriesModule {}
