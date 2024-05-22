@@ -39,6 +39,14 @@ async function bootstrap(): Promise<void> {
         .setTitle('The ACS-Web API')
         .setDescription('The ACS-Web API description')
         .setVersion('1.0')
+        .addBearerAuth({
+            description: `[just text field] Please enter token in following format: Bearer <JWT>`,
+            name: 'Authorization',
+            bearerFormat: 'Bearer',
+            scheme: 'Bearer',
+            type: 'http',
+            in: 'Header',
+        })
         .build()
     const document = SwaggerModule.createDocument(app, config)
     SwaggerModule.setup('api/docs', app, document)

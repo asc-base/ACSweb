@@ -1,10 +1,24 @@
-import { Controller, Get, Param, ParseBoolPipe, ParseIntPipe, Query } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Param,
+    ParseBoolPipe,
+    ParseIntPipe,
+    Query,
+    UseGuards,
+} from '@nestjs/common'
+import { ApiBearerAuth } from '@nestjs/swagger'
+import { JwtAuthGuard } from 'src/core/guard/auth.guard'
 import { Pageable } from 'src/models'
+import { UsersModel } from 'src/models/users'
 import { UsersDto } from 'src/modules/users/dto/users.dto'
 import { UsersFactory } from 'src/modules/users/users.factory'
+import { GetUser } from 'src/shared/decorators/get-user.decorator'
 import { QueryUserDto } from './dto/get-users.dto'
 import { UsersService } from './users.service'
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(
@@ -20,6 +34,13 @@ export class UsersController {
             ...rest,
             rows: this.usersFactory.mapUsersModelsToUsersDtos(rows),
         }
+    }
+
+    @Get('/me')
+    async getMe(@GetUser() user: UsersModel): Promise<UsersDto> {
+        const userData = await this.usersService.getUserById(user.id, true)
+
+        return this.usersFactory.mapUsersModelToUsersDto(userData)
     }
 
     @Get(':id')

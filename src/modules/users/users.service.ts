@@ -11,7 +11,7 @@ export class UsersService {
     constructor(private usersRepository: IUsersRepository) {}
 
     async getUserById(id: number, returnStudent: boolean): Promise<UsersModel> {
-        return await this.usersRepository.geById(id, returnStudent)
+        return await this.usersRepository.getById(id, returnStudent)
     }
 
     async getUsers(queryUserDto: QueryUserDto): Promise<Pageable<UsersModel>> {

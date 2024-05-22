@@ -6,6 +6,7 @@ import { ExampleRepository } from 'src/repositories/example/example.repository'
 import { IUsersRepository } from 'src/repositories/users/users.abstract'
 import { UsersFactory } from 'src/repositories/users/users.factory'
 import { UsersRepository } from 'src/repositories/users/users.repository'
+import { JwtStrategy } from 'src/strategies/jwt.strategy'
 import { IAuthRepository } from './auth/auth.abstarct'
 import { AuthFactory } from './auth/auth.factory'
 import { AuthRepository } from './auth/auth.repository'
@@ -28,6 +29,8 @@ import { AuthRepository } from './auth/auth.repository'
         UsersFactory,
         AuthFactory,
         ExampleFactory,
+        JwtStrategy,
+        UsersRepository,
     ],
     exports: [IExampleRepository, IUsersRepository, IAuthRepository],
 })
