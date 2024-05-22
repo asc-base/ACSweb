@@ -12,6 +12,8 @@ import {
     UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { MAX_FILE_SIZE_ONE_MB } from 'src/core/constants'
+import { imageExtension } from 'src/core/constants/regex'
 import { File } from 'src/models'
 import { ExampleDto } from 'src/modules/example/dto/example.dto'
 import { ExampleFactory } from 'src/modules/example/example.factory'
@@ -44,8 +46,8 @@ export class ExampleController {
             new ParseFilePipe({
                 fileIsRequired: true,
                 validators: [
-                    new FileTypeValidator({ fileType: /\/(jpg|jpeg|png)$/ }),
-                    new MaxFileSizeValidator({ maxSize: 1024 * 1024 }),
+                    new FileTypeValidator({ fileType: imageExtension }),
+                    new MaxFileSizeValidator({ maxSize: MAX_FILE_SIZE_ONE_MB }),
                 ],
             }),
         )
